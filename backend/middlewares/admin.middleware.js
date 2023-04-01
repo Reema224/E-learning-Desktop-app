@@ -1,6 +1,9 @@
-exports.adminMiddleware = async (req, res, next) => {
+exports.adminMiddleware = (req, res, next) => {
+  const user = req.user;
 
-  if (req.user.role === "admin") return next()
-
-  return res.status(401).json({ message: "Unauthorized" })
-}
+  if (user && user.role === "admin") {
+    return next();
+  } else {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+};
