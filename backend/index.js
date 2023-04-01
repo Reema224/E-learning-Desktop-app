@@ -1,11 +1,13 @@
-const http = require('http');
+const express = require("express");
+const app = express();
+require("dotenv").config();
+app.use(express.json())
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello, world!');
-});
+const authRouter = require("./routes/auth.routes")
+app.use('/auth', authRouter)
 
-server.listen(3000, () => {
-  console.log('Server running on port 3000')
-  console.log("hey");
+app.listen(process.env.PORT, (err) => {
+  if (err) console.error(err)
+  console.log("Server is running on port ", process.env.PORT);
+  require("./configs/db.config")
 });

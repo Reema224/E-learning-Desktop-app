@@ -1,7 +1,7 @@
 import './index.css'
 import React from 'react';
 import logo from '../../images/logo.png'
-const MyNavbar = () => {
+const Navbar = () => {
 return(
 <nav className='navbar'>
     <div>
@@ -16,4 +16,4 @@ return(
 
 
 }
-export default MyNavbar
+export default Navbar
