@@ -1,17 +1,25 @@
 import './index.css'
 import React from 'react';
 import logo from '../../images/logo.png'
+import header from '../../images/home-header.png'
 const Navbar = () => {
 return(
 <nav className='navbar'>
     <div>
         <img src={logo} alt="logo" />
     </div>
-    <div>
-        <a href="#">Login</a>
-        <a href="#">Signup</a>
+    <div className='links'>
+        <a href="#">Home</a>
+        <a href="#">Courses</a>
+        <a href="#">Enrollments</a>
+        <a href="#">Uploads</a>
     </div>
-</nav>
+    <div className='links-register'>
+        <a href="#">Login</a>
+        <a  className='signup-btn' href="#">Sign up free</a>
+    </div>
+</nav>  
+
 )
 
 

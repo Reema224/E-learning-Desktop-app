@@ -69,3 +69,46 @@ exports.deleteCourse = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+exports.enroll = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const studentId = req.user.id;
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    if (course.students.includes(studentId)) {
+      return res.status(400).json({ message: "You are already enrolled in this course" });
+    }
+
+    course.students.push(studentId);
+    await course.save();
+
+    res.json(course);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
+exports.listStudents = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+
+    const course = await Course.findById(courseId).populate("students");
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    res.json(course.students);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

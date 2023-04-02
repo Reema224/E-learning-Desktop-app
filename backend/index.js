@@ -8,9 +8,9 @@ app.use('/auth', authRouter)
 
 const courseRouter = require("./routes/course.routes");
 const { authMiddleware } = require("./middlewares/auth.middleware");
-const { adminMiddleware } = require("./middlewares/admin.middleware");
 
-app.use('/courses', authMiddleware, adminMiddleware, courseRouter);
+
+app.use('/courses', authMiddleware, courseRouter);
 
 app.listen(process.env.PORT, (err) => {
   if (err) console.error(err)
