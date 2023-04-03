@@ -112,3 +112,121 @@ exports.listStudents = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+exports.applyWithdrawal = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const studentId = req.user.id;
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    if (!course.students.includes(studentId)) {
+      return res.status(400).json({ message: "You are not enrolled in this course" });
+    }
+
+    if (course.withdrawals && course.withdrawals.some((w) => w.student.toString() === studentId)) {
+      return res.status(400).json({ message: "You already applied for withdrawal" });
+    }
+
+    const withdrawal = {
+      student: studentId,
+      status: "pending",
+      date: new Date(),
+    };
+
+    if(!course.withdrawals){
+      course.withdrawals = [withdrawal];
+    } else {
+      course.withdrawals.push(withdrawal);
+    }
+
+    await course.save();
+
+    res.json(withdrawal);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
+exports.approveWithdraw = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const withdrawalId = req.body.withdrawalId;
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    const withdrawal = course.withdrawals && course.withdrawals.find((w) => w._id.toString() === withdrawalId);
+
+    if (!withdrawal) {
+      return res.status(404).json({ message: "Withdrawal not found" });
+    }
+
+    if (withdrawal.status !== "pending") {
+      return res.status(400).json({ message: "Withdrawal has already been processed" });
+    }
+
+    withdrawal.status = "approved";
+    withdrawal.processedDate = new Date();
+
+    const student = await User.findById(withdrawal.student);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    student.courses = student.courses.filter((c) => c.course.toString() !== courseId);
+
+    await student.save();
+    await course.save();
+
+    res.json(withdrawal);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.rejectWithdraw = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const withdrawalId = req.body.withdrawalId;
+    const reason = req.body.reason;
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    const withdrawal = course.withdrawals && course.withdrawals.find((w) => w._id.toString() === withdrawalId);
+
+    if (!withdrawal) {
+      return res.status(404).json({ message: "Withdrawal not found" });
+    }
+
+    if (withdrawal.status !== "pending") {
+      return res.status(400).json({ message: "Withdrawal has already been processed" });
+    }
+
+    withdrawal.status = "rejected";
+    withdrawal.processedDate = new Date();
+    withdrawal.reason = reason;
+
+    await course.save();
+
+    res.json(withdrawal);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

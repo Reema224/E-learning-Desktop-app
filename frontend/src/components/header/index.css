@@ -1,4 +1,20 @@
+body{
+    color: var(--darkblue);
+}
 .header-title {
     color: var(--darkblue);
     margin-left: 1rem;
+}
+.img1{
+    width: 35rem;
+    height: 15rem;
+}
+.img2{
+    width: 50rem;
+    height: 19rem;
+    margin-top: 2rem;
+}
+.img1-container{
+    display: flex;
+    justify-content: center;
 }
