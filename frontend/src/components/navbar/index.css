@@ -31,7 +31,7 @@
 .navbar a:hover{
     text-shadow: 2px 2px 8px var(--gold);
 }
-.signup-btn{
+.signup-btnn{
     padding: 0.5rem;
     text-decoration: none;
     background-color: var(--blue);

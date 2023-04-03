@@ -16,6 +16,8 @@ exports.register = async (req, res) => {
 
   const { password: hashedPassword, ...newUser } = user.toJSON();
 
+  const token = jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY);
+   res.json({ token });
   res.status(201).json(newUser);
 };
 

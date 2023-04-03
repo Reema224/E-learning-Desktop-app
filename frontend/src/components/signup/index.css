@@ -11,8 +11,11 @@
     border-radius: 5px;
     box-shadow: 0 0 10px 0 var(--blue);
     background-color: #fff;
+    color: var(--darkblue);
 }
-
+.signup-form a{
+    color: var(--blue);
+}
 .input-container {
     display: flex;
     gap: 2rem;
@@ -31,8 +34,6 @@
     border-right: none;
     border-bottom: 2px solid var(--blue);
     outline: none;
-    /* margin-left: 2rem; */
-
 }
 
 .name {
@@ -45,10 +46,11 @@
 
 .pass {
     margin-left: 0.3rem;
+    margin-bottom: 0.4rem;
 }
 
 .signupp-btn {
-    margin-left: 2.8rem;
+    margin-left: 5rem;
 
 }
 

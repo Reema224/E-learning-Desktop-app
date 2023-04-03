@@ -22,3 +22,11 @@ contextBridge.exposeInMainWorld(
     }
   }
 );
+
+const router = {
+  navigate: (url) => {
+    ipcRenderer.invoke('router', { url });
+  },
+};
+
+window.router = router;

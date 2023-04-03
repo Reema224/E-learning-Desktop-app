@@ -9,14 +9,14 @@ return(
         <img src={logo} alt="logo" />
     </div>
     <div className='links'>
-        <a href="#">Home</a>
+        <a href="_blank">Home</a>
         <a href="#">Courses</a>
         <a href="#">Enrollments</a>
         <a href="#">Uploads</a>
     </div>
     <div className='links-register'>
-        <a href="#">Login</a>
-        <a  className='signup-btn' href="#">Sign up free</a>
+        <a href="login">Login</a>
+        <a  className='signup-btnn' href="signup">Sign up free</a>
     </div>
 </nav>  
 

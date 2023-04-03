@@ -1,6 +1,8 @@
 const path = require('path');
 const url = require('url');
 const { app, BrowserWindow } = require('electron');
+const { autoUpdater } = require('electron-updater');
+autoUpdater.checkForUpdatesAndNotify();
 
 let mainWindow;
 
@@ -12,7 +14,8 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js')
+      webSecurity: false,
+      preload: path.join(__dirname, '../../electron/preload.js')
     }
   });
 
